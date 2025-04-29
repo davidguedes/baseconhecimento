@@ -1,0 +1,35 @@
+.document-manager {
+    padding: 2rem;
+    
+    .upload-section {
+        margin-bottom: 2rem;
+    }
+    
+    .spinner-container {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+    
+    :host ::ng-deep {
+        .p-card {
+            .p-card-body {
+                .p-card-content {
+                    padding: 0;
+                }
+            }
+        }
+        
+        .p-fileupload-buttonbar {
+            padding: 0;
+        }
+        
+        .p-datatable {
+            .p-datatable-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+}

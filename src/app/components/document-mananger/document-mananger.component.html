@@ -1,0 +1,74 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="document-manager">
+    <p-card header="Gerenciador de Documentos">
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <p-fileUpload
+                mode="basic"
+                #fu 
+                chooseLabel="Selecionar PDF"
+                [auto]="false"
+                accept="application/pdf"
+                [maxFileSize]="1000000"
+                (uploadHandler)="onUploads($event)"
+                [showUploadButton]="false"
+                customUpload="true"
+                styleClass="p-button-primary">
+            </p-fileUpload>
+            <p-button label="Upload" (onClick)="fu.upload()" severity="secondary"/>
+        </div>
+
+        <!-- Loading Spinner -->
+        @if(isLoading) {
+            <div class="spinner-container">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+        }
+
+        <!-- Documents Table -->
+        <p-table
+            [value]="documents"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} até {last} de {totalRecords} documentos"
+            [rowsPerPageOptions]="[10,25,50]"
+            styleClass="p-datatable-striped">
+            
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nome do Arquivo</th>
+                    <th>Chunks</th>
+                    <th>Data de Criação</th>
+                    <th>Ações</th>
+                </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="body" let-doc>
+                <tr>
+                    <td>{{doc.source}}</td>
+                    <td>{{doc.chunks}}</td>
+                    <td>{{doc.created_at}}</td>
+                    <td>
+                        <p-button
+                            icon="pi pi-trash"
+                            styleClass="p-button-danger p-button-text"
+                            (onClick)="confirmDelete(doc.source, doc.id)"
+                            [pTooltip]="'Excluir ' + doc.source">
+                        </p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4" class="text-center">
+                        Nenhum documento encontrado
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>

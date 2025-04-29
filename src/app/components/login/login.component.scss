@@ -1,0 +1,104 @@
+/* Estilos globais para a tela de login */
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+  }
+  
+  /* Estilização do card */
+  :host ::ng-deep .p-card {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  :host ::ng-deep .p-card .p-card-header {
+    font-size: 24px;
+    font-weight: 600;
+    color: #3f51b5;
+    padding: 1.5rem 1.5rem 0;
+    border-bottom: none;
+    text-align: center;
+  }
+  
+  :host ::ng-deep .p-card .p-card-body {
+    padding: 1.5rem;
+  }
+  
+  :host ::ng-deep .p-card .p-card-content {
+    padding: 1.5rem 0;
+  }
+  
+  /* Estilização do formulário */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Estilização dos inputs */
+  :host ::ng-deep .p-inputtext {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+  }
+  
+  :host ::ng-deep .p-inputtext:focus {
+    box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+    border-color: #3f51b5;
+  }
+  
+  /* Estilização do select */
+  :host ::ng-deep .p-select {
+    width: 100%;
+  }
+  
+  :host ::ng-deep .p-select .p-component {
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 16px;
+  }
+  
+  /* Estilização do botão */
+  :host ::ng-deep .p-button {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    background-color: #3f51b5;
+    border-color: #3f51b5;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  :host ::ng-deep .p-button:hover {
+    background-color: #303f9f;
+    border-color: #303f9f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsividade */
+  @media screen and (max-width: 576px) {
+    :host ::ng-deep .p-card {
+      max-width: 100%;
+    }
+    
+    :host ::ng-deep .p-card .p-card-header {
+      font-size: 20px;
+    }
+    
+    :host ::ng-deep .p-inputtext,
+    :host ::ng-deep .p-select .p-component,
+    :host ::ng-deep .p-button {
+      padding: 0.75rem;
+      font-size: 14px;
+    }
+  }

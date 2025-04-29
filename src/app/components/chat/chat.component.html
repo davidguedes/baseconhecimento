@@ -1,0 +1,54 @@
+<div class="chat-container">
+  <p-card>
+    <div 
+      #chatContainer 
+      class="chat-messages p-component" 
+      [style]="{'height': '500px', 'overflow-y': 'auto'}"
+    >
+      @for (message of messages; track $index) {
+        <ng-container>
+          <div class="message" [ngClass]="{ 'message-user': message.sender === 'user', 'message-bot': message.sender === 'bot' }">
+            <div class="message-author">
+              {{ message.sender === 'user' ? user.name : '🤖 PHDIAno' }}
+            </div>
+            <div class="message-content">
+              {{ message.content }}
+            </div>
+            <div class="message-timestamp">
+              {{ message.timestamp | date:'HH:mm' }}
+            </div>
+          </div>
+        </ng-container>
+      }
+
+      @if (isLoading) {
+        <div class="message message-bot typing-indicator">
+          <p-progressSpinner 
+            styleClass="small-spinner" 
+            strokeWidth="4"
+          ></p-progressSpinner>
+        </div>
+      }
+    </div>
+
+    <div class="chat-input-container">
+      <form [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+        <div class="p-inputgroup">
+          <input 
+            pInputText 
+            type="text" 
+            formControlName="message" 
+            placeholder="Digite sua mensagem..."
+            (keyup.enter)="sendMessage()"
+          />
+          <p-button 
+            type="submit" 
+            icon="pi pi-send"
+            [disabled]="!chatForm.valid || isLoading"
+            (click)="sendMessage()"
+          ></p-button>
+        </div>
+      </form>
+    </div>
+  </p-card>
+</div>
