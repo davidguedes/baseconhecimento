@@ -11,7 +11,6 @@
                 chooseLabel="Selecionar PDF"
                 [auto]="false"
                 accept="application/pdf"
-                [maxFileSize]="1000000"
                 (uploadHandler)="onUploads($event)"
                 [showUploadButton]="false"
                 customUpload="true"
@@ -49,13 +48,13 @@
             <ng-template pTemplate="body" let-doc>
                 <tr>
                     <td>{{doc.source}}</td>
-                    <td>{{doc.chunks}}</td>
-                    <td>{{doc.created_at}}</td>
+                    <td>{{doc.chunk_count}}</td>
+                    <td>{{doc.upload_date | date: 'dd/MM/yyyy' }}</td>
                     <td>
                         <p-button
                             icon="pi pi-trash"
                             styleClass="p-button-danger p-button-text"
-                            (onClick)="confirmDelete(doc.source, doc.id)"
+                            (onClick)="confirmDelete(doc.source)"
                             [pTooltip]="'Excluir ' + doc.source">
                         </p-button>
                     </td>

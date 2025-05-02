@@ -24,6 +24,6 @@ export class DocumentService {
   }
 
   deleteDocument(sector: string, filename: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${sector}/${filename}`);
+    return this.http.delete(`${this.apiUrl}/${sector}/source/${filename}`);
   }
 }

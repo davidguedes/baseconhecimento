@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 import { Subject, takeUntil } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-document-mananger',
@@ -22,7 +23,8 @@ import { Subject, takeUntil } from 'rxjs';
     ConfirmDialogModule,
     CardModule,
     ProgressSpinnerModule,
-    TooltipModule
+    TooltipModule,
+    DatePipe
   ],
   templateUrl: './document-mananger.component.html',
   styleUrl: './document-mananger.component.scss',
@@ -56,6 +58,7 @@ export class DocumentManangerComponent implements OnDestroy {
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({
       next: (docs) => {
+        console.log('Os docs: ', docs);
         this.documents = docs;
         this.isLoading = false;
       },
@@ -94,18 +97,18 @@ export class DocumentManangerComponent implements OnDestroy {
     });
   }
 
-  confirmDelete(filename: string, id: string) {
+  confirmDelete(filename: string) {
     this.confirmationService.confirm({
       message: `Tem certeza que deseja excluir o documento "${filename}"?`,
       header: 'Confirmar Exclusão',
       icon: 'pi pi-exclamation-triangle',
-      accept: () => this.deleteDocument('ti', id)
+      accept: () => this.deleteDocument('ti', filename)
     });
   }
   
-  deleteDocument(sector: string, id: string) {
+  deleteDocument(sector: string, filename: string) {
     this.isLoading = true;
-    this.documentService.deleteDocument(sector, id)
+    this.documentService.deleteDocument(sector, filename)
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({
       next: () => {
