@@ -29,9 +29,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.setores = [
-      {name: 'Tecnologia', cod: 'ti'},
-      {name: 'Recursos Humanos', cod: 'rh'},
-      {name: 'Fiscal', cod: 'fi'},
+      {name: 'Tecnologia', cod: 'tec_info'},
+      {name: 'Recursos Humanos', cod: 'rec_huma'},
+      {name: 'Fiscal', cod: 'fisc'},
     ]
 
     this.formulario = this.formBuilder.group({

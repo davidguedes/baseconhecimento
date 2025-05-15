@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { DocumentService } from '../../services/document.service';
 import { Document } from '../../models/document.model';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,8 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 import { Subject, takeUntil } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-document-mananger',
@@ -32,16 +34,16 @@ import { DatePipe } from '@angular/common';
 })
 export class DocumentManangerComponent implements OnDestroy {
   unsubscribe$ = new Subject();
+  user!: User;
 
   documents: Document[] = [];
   isLoading = false;
   errorMessage = '';
 
-  constructor(
-    private documentService: DocumentService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
-  ) {}
+    protected userService: UserService = inject(UserService);
+    protected documentService: DocumentService = inject(DocumentService);
+    protected messageService: MessageService = inject(MessageService);
+    protected confirmationService: ConfirmationService = inject(ConfirmationService);
 
   ngOnDestroy(): void {
     this.unsubscribe$.next(null);
@@ -49,12 +51,14 @@ export class DocumentManangerComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.loadDocuments();
+    this.user = this.userService.getUser() ?? {} as User;
+    
+    this.loadDocuments(this.user.sector.cod);
   }
 
-  loadDocuments() {
+  loadDocuments(sector: string) {
     this.isLoading = true;
-    this.documentService.getDocuments('ti')
+    this.documentService.getDocuments(sector)
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({
       next: (docs) => {
@@ -76,7 +80,7 @@ export class DocumentManangerComponent implements OnDestroy {
   onUploads(event: any) {
     console.log("Vindo pra ca: ", event)
     const file = event.files[0];
-    this.documentService.uploadDocument(file, 'ti')
+    this.documentService.uploadDocument(file, this.user.sector.cod)
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({
       next: (response) => {
@@ -85,7 +89,7 @@ export class DocumentManangerComponent implements OnDestroy {
           summary: 'Sucesso',
           detail: 'Documento enviado com sucesso'
         });
-        this.loadDocuments();
+        this.loadDocuments(this.user.sector.cod);
       },
       error: (error) => {
         this.messageService.add({
@@ -102,7 +106,7 @@ export class DocumentManangerComponent implements OnDestroy {
       message: `Tem certeza que deseja excluir o documento "${filename}"?`,
       header: 'Confirmar Exclusão',
       icon: 'pi pi-exclamation-triangle',
-      accept: () => this.deleteDocument('ti', filename)
+      accept: () => this.deleteDocument(this.user.sector.cod, filename)
     });
   }
   
@@ -117,7 +121,7 @@ export class DocumentManangerComponent implements OnDestroy {
           summary: 'Sucesso',
           detail: 'Documento excluído com sucesso'
         });
-        this.loadDocuments();
+        this.loadDocuments(this.user.sector.cod);
       },
       error: (error) => {
         this.messageService.add({
