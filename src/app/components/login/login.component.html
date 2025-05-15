@@ -1,7 +1,7 @@
 <div class="login">
     <p-card header="Base de Conhecimento">
         <form [formGroup]="formulario" (submit)="logar()">
-            <input type="text" pInputText formControlName="name" />
+            <input type="text" (keyup.enter)="logar()" pInputText formControlName="name" />
             <p-select formControlName="sector" [options]="setores" optionLabel="name" placeholder="Selecione o setor" class="w-full md:w-56" />
             <p-button label="Enviar" (onClick)="logar()" />
         </form>
